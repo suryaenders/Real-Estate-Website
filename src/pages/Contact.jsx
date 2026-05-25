@@ -1,6 +1,35 @@
 // import React from 'react'
 
+import { useState } from "react";
+
 const Contact = () => {
+  const [success, setSuccess] = useState(false);
+
+  const handleSubmit = async (e) => {
+    e.preventDefault();
+
+    const form = e.target;
+    const data = new FormData(form);
+
+    const response = await fetch("https://formspree.io/f/mbdbawer", {
+      method: "POST",
+      body: data,
+      headers: {
+        Accept: "application/json",
+      },
+    });
+
+    if (response.ok) {
+      setSuccess("");
+      alert("Form Submitted Successfully");
+      form.reset();
+    } else {
+      console.log("Error", data);
+      alert(data.message);
+      setSuccess("");
+    }
+  };
+
   return (
     <div
       className="text-center p-6 py-20 lg:px-32 w-full overflow-hidden"
@@ -17,7 +46,7 @@ const Contact = () => {
       </p>
 
       <form
-        // onSubmit={onSubmit}
+        onSubmit={handleSubmit}
         className="max-w-2xl mx-auto text-gray-600 pt-8"
       >
         <div className="flex flex-wrap">
@@ -51,8 +80,8 @@ const Contact = () => {
             required
           ></textarea>
         </div>
-        <button className="bg-blue-600 text-white py-2 px-12 mb-10">
-          Send Message
+        <button className="bg-blue-600 text-white py-2 px-12 mb-10 cursor-pointer">
+          {success ? success : "Send Message"}
         </button>
       </form>
     </div>
