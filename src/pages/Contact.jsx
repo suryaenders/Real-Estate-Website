@@ -1,12 +1,14 @@
 // import React from 'react'
 
 import { useState } from "react";
+import { toast } from "react-toastify";
 
 const Contact = () => {
   const [success, setSuccess] = useState(false);
 
   const handleSubmit = async (e) => {
     e.preventDefault();
+    setSuccess("Sending....");
 
     const form = e.target;
     const data = new FormData(form);
@@ -21,11 +23,12 @@ const Contact = () => {
 
     if (response.ok) {
       setSuccess("");
-      alert("Form Submitted Successfully");
+      // alert("Form Submitted Successfully");
+      toast.success("Form Submitted Successfully");
       form.reset();
     } else {
       console.log("Error", data);
-      alert(data.message);
+      toast.error(data.message);
       setSuccess("");
     }
   };
